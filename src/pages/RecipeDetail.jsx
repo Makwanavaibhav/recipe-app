@@ -68,7 +68,7 @@ export default function RecipeDetail() {
   if (loading) {
     return (
       <div className="space-y-8 animate-in fade-in duration-500">
-        <Skeleton className="w-full h-[400px] rounded-2xl" />
+        <Skeleton className="w-full h-100 rounded-2xl" />
         <div className="flex gap-8">
           <div className="w-1/3 space-y-4">
             <Skeleton className="h-10 w-3/4" />
@@ -108,11 +108,11 @@ export default function RecipeDetail() {
 
       {/* Hero Section */}
       <section className="space-y-6">
-        <div className="relative rounded-2xl overflow-hidden aspect-video sm:aspect-[21/9] bg-secondary border border-border">
+        <div className="relative rounded-2xl overflow-hidden aspect-video sm:aspect-21/9 bg-secondary border border-border">
           {recipe.image && (
             <img src={recipe.image} alt={recipe.title} className="w-full h-full object-cover" />
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6 md:p-10">
+          <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent flex items-end p-6 md:p-10">
             <div className="text-white space-y-3">
               <div className="flex flex-wrap gap-2 mb-2">
                 {recipe.cuisines?.slice(0, 2).map(c => 
@@ -180,7 +180,7 @@ export default function RecipeDetail() {
                 >
                   <Minus className="w-4 h-4" />
                 </button>
-                <div className="px-3 py-1 font-medium text-sm flex items-center gap-1 min-w-[3rem] justify-center">
+                <div className="px-3 py-1 font-medium text-sm flex items-center gap-1 min-w-12 justify-center">
                   {servings} <Users className="w-3 h-3 text-muted-foreground" />
                 </div>
                 <button 
