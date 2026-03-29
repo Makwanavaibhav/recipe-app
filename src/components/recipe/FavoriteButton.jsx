@@ -1,7 +1,7 @@
 import { Heart } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "../ui/button";
 import { useFavorites } from "../../context/FavoritesContext";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 
 export default function FavoriteButton({ recipe, variant = "default", className }) {
   const { isFavorite, toggleFavorite } = useFavorites();
@@ -17,7 +17,7 @@ export default function FavoriteButton({ recipe, variant = "default", className 
         className
       )}
       onClick={(e) => {
-        e.preventDefault(); // Prevent navigation if inside a Link wrapper
+        e.preventDefault(); 
         e.stopPropagation();
         toggleFavorite(recipe);
       }}

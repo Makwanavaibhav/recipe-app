@@ -4,15 +4,15 @@ import { Search as SearchIcon, Filter, X, ChevronDown, ListFilter, ChefHat } fro
 import { searchRecipes } from "../api/spoonacular";
 import RecipeCard from "../components/recipe/RecipeCard";
 import RecipeCardSkeleton from "../components/recipe/RecipeCardSkeleton";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Slider } from "@/components/ui/slider";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
-import { Badge } from "@/components/ui/badge";
+import { Input } from "../components/ui/input";
+import { Button } from "../components/ui/button";
+import { Checkbox } from "../components/ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "../components/ui/radio-group";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
+import { Slider } from "../components/ui/slider";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../components/ui/accordion";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "../components/ui/sheet";
+import { Badge } from "../components/ui/badge";
 
 const DIETS = ["Vegetarian", "Vegan", "Gluten Free", "Dairy Free", "Ketogenic", "Paleo", "Whole30"];
 const MEAL_TYPES = ["Breakfast", "Lunch", "Dinner", "Snack", "Dessert", "Appetizer"];
@@ -27,7 +27,6 @@ export default function Search() {
   const [ingredientInput, setIngredientInput] = useState("");
   const [ingredients, setIngredients] = useState([]);
   
-  // Filters State
   const [diets, setDiets] = useState([]);
   const [mealType, setMealType] = useState("");
   const [cuisine, setCuisine] = useState("all");
@@ -35,7 +34,6 @@ export default function Search() {
   const [calories, setCalories] = useState([1000]);
   const [sortBy, setSortBy] = useState("popularity");
 
-  // Results State
   const [results, setResults] = useState([]);
   const [totalResults, setTotalResults] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -58,7 +56,6 @@ export default function Search() {
       fillIngredients: true,
     };
 
-    // Clean up empty params
     Object.keys(params).forEach(k => {
       if (!params[k] && params[k] !== 0) delete params[k];
     });
@@ -82,14 +79,12 @@ export default function Search() {
     }
   }, [query, ingredientsMode, ingredients, diets, mealType, cuisine, maxTime, calories, sortBy, offset]);
 
-  // Initial fetch and fetch on filter reset/apply
   useEffect(() => {
-    // Only fetch automatically if we have a query or if it's the first load
     const timeoutId = setTimeout(() => {
       fetchResults(false);
-    }, 500); // debounce
+    }, 500);
     return () => clearTimeout(timeoutId);
-  }, [query, ingredientsMode, ingredients, diets, mealType, cuisine, maxTime, calories, sortBy]);
+  }, [query, ingredientsMode, ingredients, diets, mealType, cuisine, maxTime, calories, sortBy, fetchResults]);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -200,7 +195,7 @@ export default function Search() {
                 onValueChange={setMaxTime} 
                 max={120} 
                 step={5} 
-                className="[&>[role=slider]]:bg-primary"
+                className="*:[[role=slider]]:bg-primary"
               />
               <div className="flex justify-between text-xs text-muted-foreground font-medium">
                 <span>0 mins</span>
@@ -219,7 +214,7 @@ export default function Search() {
                 onValueChange={setCalories} 
                 max={2000} 
                 step={50} 
-                className="[&>[role=slider]]:bg-primary"
+                className="*:[[role=slider]]:bg-primary"
               />
               <div className="flex justify-between text-xs text-muted-foreground font-medium">
                 <span>0</span>
@@ -291,7 +286,7 @@ export default function Search() {
             
             <div className="flex gap-2 sm:items-start shrink-0">
               <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger className="w-full sm:w-[160px] h-12 rounded-xl bg-secondary/50 border-border">
+                <SelectTrigger className="w-full sm:w-40 h-12 rounded-xl bg-secondary/50 border-border">
                   <SelectValue placeholder="Sort By" />
                 </SelectTrigger>
                 <SelectContent>
@@ -327,7 +322,7 @@ export default function Search() {
                     <ListFilter className="w-4 h-4" /> Filters
                   </Button>
                 </SheetTrigger>
-                <SheetContent side="left" className="w-[85vw] sm:w-[350px] overflow-y-auto">
+                <SheetContent side="left" className="w-[85vw] sm:w-87.5 overflow-y-auto">
                   <SheetTitle className="sr-only">Filters</SheetTitle>
                   <div className="py-4">
                     <FiltersContent />
@@ -384,7 +379,7 @@ export default function Search() {
                     variant="outline" 
                     size="lg" 
                     onClick={() => fetchResults(true)}
-                    className="w-full sm:w-auto min-w-[200px]"
+                    className="w-full sm:w-auto min-w-50"
                   >
                     Load More Results
                   </Button>

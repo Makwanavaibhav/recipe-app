@@ -6,9 +6,9 @@ import RecipeCard from "../components/recipe/RecipeCard";
 import RecipeCardSkeleton from "../components/recipe/RecipeCardSkeleton";
 import { useFavorites } from "../context/FavoritesContext";
 import { useMealPlan, getCurrentWeekKey } from "../context/MealPlanContext";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Card, CardContent } from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -21,11 +21,8 @@ export default function Dashboard() {
   const [loadingFeatured, setLoadingFeatured] = useState(true);
   const [loadingSeasonal, setLoadingSeasonal] = useState(true);
 
-  // Stats calculation
   const weekPlan = getWeekPlan(getCurrentWeekKey());
   const plannedMealsCount = Object.values(weekPlan).reduce((acc, day) => acc + Object.keys(day).length, 0);
-
-  // Determine season
   const month = new Date().getMonth();
   let season = "Spring";
   let seasonKeyword = "spring salads";
@@ -37,13 +34,11 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        // Fetch featured
         setLoadingFeatured(true);
         const featuredData = await getRandomRecipes("main course", 6);
         if (featuredData?.recipes) setFeatured(featuredData.recipes);
         setLoadingFeatured(false);
 
-        // Fetch seasonal
         setLoadingSeasonal(true);
         const seasonalData = await searchRecipes({ query: seasonKeyword, number: 4, addRecipeInformation: true });
         if (seasonalData?.results) setSeasonal(seasonalData.results);
@@ -70,7 +65,7 @@ export default function Dashboard() {
       
       {/* Hero Section */}
       <section className="relative rounded-2xl overflow-hidden bg-secondary border border-border px-6 py-16 md:py-24 text-center">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-linear-to-br from-primary/5 to-transparent pointer-events-none" />
         <div className="relative z-10 max-w-3xl mx-auto space-y-6">
           <h1 className="text-4xl md:text-5xl font-serif font-bold text-foreground leading-tight">
             What are you <span className="text-primary italic pr-2">cooking</span> tonight?
@@ -129,12 +124,12 @@ export default function Dashboard() {
         <div className="flex overflow-x-auto pb-4 -mx-4 px-4 md:grid md:grid-cols-3 md:overflow-visible md:p-0 md:mx-0 gap-6 snap-x">
           {loadingFeatured 
             ? Array(3).fill(0).map((_, i) => (
-                <div key={i} className="w-[80vw] md:w-auto flex-shrink-0 snap-center">
+                <div key={i} className="w-[80vw] md:w-auto shrink-0 snap-center">
                   <RecipeCardSkeleton />
                 </div>
               ))
             : featured.map((recipe) => (
-                <div key={recipe.id} className="w-[80vw] md:w-auto flex-shrink-0 snap-center">
+                <div key={recipe.id} className="w-[80vw] md:w-auto shrink-0 snap-center">
                   <RecipeCard recipe={recipe} />
                 </div>
               ))

@@ -1,9 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
 import { UtensilsCrossed, Menu, Search, Calendar, Heart, Home } from "lucide-react";
 import { useFavorites } from "../../context/FavoritesContext";
-import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "../ui/sheet";
+import { Button } from "../ui/button";
+import { Badge } from "../ui/badge";
 import { useState } from "react";
 
 export default function AppNavbar() {
@@ -28,7 +28,7 @@ export default function AppNavbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
@@ -66,7 +66,7 @@ export default function AppNavbar() {
                   <span className="sr-only">Open main menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-[80vw] sm:w-[350px]">
+              <SheetContent side="right" className="w-[80vw] sm:w-87.5">
                 <SheetTitle className="sr-only">Menu</SheetTitle>
                 <div className="flex items-center gap-2 mb-8 mt-4">
                   <div className="bg-primary/10 p-2 rounded-lg">

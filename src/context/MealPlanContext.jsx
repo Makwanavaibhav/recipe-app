@@ -5,15 +5,11 @@ import { toast } from "sonner";
 
 const MealPlanContext = createContext();
 
-// Format: "YYYY-WW" e.g. "2026-11"
 export const getCurrentWeekKey = (date = new Date()) => {
   return `${getYear(date)}-${getISOWeek(date).toString().padStart(2, "0")}`;
 };
 
 export function MealPlanProvider({ children }) {
-  // We store the entire meal plan history in one object to simplify tracking.
-  // Keys: "YYYY-WW" -> Values: { day: { mealType: record } }
-  // Example: "2026-11" -> { "Monday": { "Breakfast": recipeObj, "Dinner": recipeObj } }
   const [mealPlans, setMealPlans] = useLocalStorage("recipe-nest-meal-plans", {});
 
   const getWeekPlan = useCallback((weekKey) => {
@@ -60,7 +56,6 @@ export function MealPlanProvider({ children }) {
     });
   }, [setMealPlans]);
 
-  // Handle Dnd reorders within the planner (moving a recipe from one slot to another)
   const moveMeal = useCallback((weekKey, sourceDay, sourceMealType, targetDay, targetMealType) => {
     setMealPlans((prev) => {
       const weekData = prev[weekKey] || {};
@@ -68,7 +63,6 @@ export function MealPlanProvider({ children }) {
 
       if (!recipeToMove) return prev;
 
-      // Also remove it from source
       const newSourceDayData = { ...(weekData[sourceDay] || {}) };
       delete newSourceDayData[sourceMealType];
 

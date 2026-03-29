@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "../ui/dialog";
+import { Button } from "../ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { useMealPlan, getCurrentWeekKey } from "../../context/MealPlanContext";
 
 const DAYS_OF_WEEK = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
@@ -10,9 +10,8 @@ const MEAL_TYPES = ["Breakfast", "Lunch", "Dinner"];
 export default function AddToPlannerDialog({ recipe, open, onOpenChange }) {
   const { addToMealPlan } = useMealPlan();
   
-  // Default forms to today's day (or next available) and Dinner
-  const todayIndex = new Date().getDay(); // 0 is Sunday
-  const defaultDay = todayIndex === 0 ? "Sunday" : DAYS_OF_WEEK[todayIndex - 1]; // map JS getDay to our array
+  const todayIndex = new Date().getDay();
+  const defaultDay = todayIndex === 0 ? "Sunday" : DAYS_OF_WEEK[todayIndex - 1];
   
   const [day, setDay] = useState(defaultDay);
   const [mealType, setMealType] = useState("Dinner");

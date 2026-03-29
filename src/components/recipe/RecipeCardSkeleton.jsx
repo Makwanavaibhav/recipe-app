@@ -1,5 +1,5 @@
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardContent, CardFooter } from "../ui/card";
+import { Skeleton } from "../ui/skeleton";
 
 export default function RecipeCardSkeleton({ size = "default", showFooter = true }) {
   const isCompact = size === 'compact';
@@ -7,7 +7,7 @@ export default function RecipeCardSkeleton({ size = "default", showFooter = true
   return (
     <Card className="h-full flex flex-col overflow-hidden border-border bg-card">
       {/* Image Skeleton */}
-      <div className={`w-full ${isCompact ? 'aspect-video' : 'aspect-[4/3]'}`}>
+      <div className={`w-full ${isCompact ? 'aspect-video' : 'aspect-4/3'}`}>
         <Skeleton className="w-full h-full rounded-none" />
       </div>
 

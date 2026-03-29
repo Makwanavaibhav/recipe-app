@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import { HeartOff, List, Search as SearchIcon } from "lucide-react";
 import { useFavorites } from "../context/FavoritesContext";
 import RecipeCard from "../components/recipe/RecipeCard";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Input } from "@/components/ui/input";
+import { Button } from "../components/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "../components/ui/tabs";
+import { Input } from "../components/ui/input";
 
 export default function Favorites() {
   const { favorites } = useFavorites();
@@ -17,7 +17,6 @@ export default function Favorites() {
   const filtered = favorites.filter(fav => {
     const matchesSearch = fav.title?.toLowerCase().includes(search.toLowerCase());
     
-    // Check if the recipe belongs to the selected category (handling array of dishTypes if present)
     let matchesType = filter === "all";
     if (!matchesType && fav.dishTypes) {
       matchesType = fav.dishTypes.some(d => d.toLowerCase().includes(filter.toLowerCase()));

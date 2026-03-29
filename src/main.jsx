@@ -4,7 +4,7 @@ import App from './App.jsx'
 import './index.css'
 import { FavoritesProvider } from './context/FavoritesContext.jsx'
 import { MealPlanProvider } from './context/MealPlanContext.jsx'
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "./components/ui/sonner.jsx"
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

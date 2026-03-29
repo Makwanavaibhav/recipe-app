@@ -7,8 +7,8 @@ import { useFavorites } from "../context/FavoritesContext";
 import { DndContext, DragOverlay, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { useDroppable, useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
 import { searchRecipes } from "../api/spoonacular";
 
 const DAYS_OF_WEEK = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
@@ -20,18 +20,14 @@ export default function MealPlanner() {
   const { favorites } = useFavorites();
   const [activeDragItem, setActiveDragItem] = useState(null);
   
-  // Sidebar Search
   const [sidebarSearch, setSidebarSearch] = useState("");
   const [sidebarResults, setSidebarResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
 
-  // Compute Week Key and Dates
   const weekStart = startOfISOWeek(currentDate);
   const weekEnd = endOfISOWeek(currentDate);
   const weekKey = `${getYear(currentDate)}-${getISOWeek(currentDate).toString().padStart(2, "0")}`;
   const weekPlan = getWeekPlan(weekKey);
-
-  // DND Sensors
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
     useSensor(KeyboardSensor)
@@ -69,19 +65,15 @@ export default function MealPlanner() {
     const targetData = over.data.current;
 
     if (sourceData.type === "sidebar-recipe") {
-      // Create new meal entry from sidebar
       addToMealPlan(weekKey, targetData.day, targetData.mealType, sourceData.recipe);
     } else if (sourceData.type === "planner-meal") {
-      // Move within planner
       if (sourceData.day === targetData.day && sourceData.mealType === targetData.mealType) return;
       moveMeal(weekKey, sourceData.day, sourceData.mealType, targetData.day, targetData.mealType);
     }
   };
-
-  // Weekly Summary calculation
   const totalMacros = useMemo(() => {
     let cal = 0, pro = 0, fat = 0, carb = 0;
-    let missingMeals = 7 * 3; // 21 total slots
+    let missingMeals = 7 * 3; 
 
     Object.values(weekPlan).forEach(dayObj => {
       Object.values(dayObj).forEach(recipe => {
@@ -127,7 +119,7 @@ export default function MealPlanner() {
             </div>
           </div>
 
-          <div className="grid grid-cols-7 gap-2 md:gap-4 min-w-[800px] overflow-x-auto pb-6">
+          <div className="grid grid-cols-7 gap-2 md:gap-4 min-w-200 overflow-x-auto pb-6">
             {/* Headers */}
             {DAYS_OF_WEEK.map(day => (
               <div key={day} className="text-center font-serif font-bold text-foreground py-2 border-b-2 border-primary/20 bg-secondary/30 rounded-t-xl">
@@ -138,7 +130,6 @@ export default function MealPlanner() {
             {/* Grid rows */}
             {MEAL_TYPES.map(mealType => (
               <div key={mealType} className="col-span-7 contents group">
-                {/* Visual marker for meal type column is tricky in CSS grid 'contents', so we rely on cards */}
                 {DAYS_OF_WEEK.map(day => {
                   const recipe = weekPlan[day]?.[mealType];
                   return (
@@ -243,7 +234,6 @@ export default function MealPlanner() {
   );
 }
 
-// Droppable Slot Component
 function DroppableSlot({ day, mealType, recipe, onRemove }) {
   const { setNodeRef, isOver } = useDroppable({
     id: `slot-${day}-${mealType}`,
@@ -276,7 +266,6 @@ function DroppableSlot({ day, mealType, recipe, onRemove }) {
   );
 }
 
-// Draggable Sidebar Card Component
 function DraggableSidebarCard({ recipe }) {
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
     id: `sidebar-${recipe.id}`,
@@ -300,7 +289,6 @@ function DraggableSidebarCard({ recipe }) {
   );
 }
 
-// Draggable active planner card Component
 function DraggablePlannerCard({ day, mealType, recipe, onRemove }) {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id: `planner-${day}-${mealType}`,
@@ -319,11 +307,11 @@ function DraggablePlannerCard({ day, mealType, recipe, onRemove }) {
         ${isDragging ? 'opacity-0' : 'opacity-100'}`}
     >
       <img src={recipe.image} alt={recipe.title} className="w-full h-full object-cover" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-2 flex flex-col justify-end">
+      <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent p-2 flex flex-col justify-end">
         <Link 
           to={`/recipe/${recipe.id}`} 
           className="text-xs font-bold text-white line-clamp-2 hover:underline leading-tight"
-          onPointerDown={e => e.stopPropagation()} // Prevent drag when clicking link
+          onPointerDown={e => e.stopPropagation()}
         >
           {recipe.title}
         </Link>

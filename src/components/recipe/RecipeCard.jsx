@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { Clock, Users, Flame, CalendarPlus, Image as ImageIcon } from "lucide-react";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter } from "../ui/card";
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
 import FavoriteButton from "./FavoriteButton";
 import AddToPlannerDialog from "./AddToPlannerDialog";
 import { useState } from "react";
@@ -10,18 +10,15 @@ import { useState } from "react";
 export default function RecipeCard({ recipe, size = "default", showAddToPlanner = true }) {
   const [plannerOpen, setPlannerOpen] = useState(false);
 
-  // Extract relevant info with fallbacks for Spoonacular API shape variations
   const id = recipe.id;
   const title = recipe.title;
   const image = recipe.image;
   const readyInMinutes = recipe.readyInMinutes;
   const servings = recipe.servings;
   
-  // Try to find calories in nutrition widget if included
   const caloriesNutrient = recipe.nutrition?.nutrients?.find(n => n.name === 'Calories');
   const calories = caloriesNutrient ? Math.round(caloriesNutrient.amount) : null;
 
-  // Gather diet tags (vegetarian, vegan, glutenFree, dairyFree)
   const dietTags = [];
   if (recipe.vegetarian && !recipe.vegan) dietTags.push({ label: 'Vegetarian', color: 'bg-green-100 text-green-800 border-green-200' });
   if (recipe.vegan) dietTags.push({ label: 'Vegan', color: 'bg-emerald-100 text-emerald-800 border-emerald-200' });
@@ -35,7 +32,7 @@ export default function RecipeCard({ recipe, size = "default", showAddToPlanner 
       <Link to={`/recipe/${id}`} className="block group h-full">
         <Card className="h-full flex flex-col overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl border-border bg-card">
           {/* Image Header */}
-          <div className={`relative w-full ${isCompact ? 'aspect-video' : 'aspect-[4/3]'} overflow-hidden bg-secondary flex items-center justify-center`}>
+          <div className={`relative w-full ${isCompact ? 'aspect-video' : 'aspect-4/3'} overflow-hidden bg-secondary flex items-center justify-center`}>
             {image ? (
               <img
                 src={image}
